@@ -51,15 +51,26 @@ def run_migrations():
                 # Open and execute the migration SQL file
                 with open(f'./app/db/migrations/{migration_file}', 'r') as file:
                     migration_sql = file.read()
-                    cursor.execute(migration_sql)
-                    print(f"Applied migration: {migration_file}")
+                    try:
+                        cursor.execute(migration_sql)
+                        print(f"Applied migration: {migration_file}")
 
-                # Insert record into the migrations table
-                cursor.execute(
-                    sql.SQL("INSERT INTO migrations (migration_name) VALUES (%s)"),
-                    [migration_file]
-                )
-                connection.commit()
+                        # Insert record into the migrations table
+                        cursor.execute(
+                            sql.SQL("INSERT INTO migrations (migration_name) VALUES (%s)"),
+                            [migration_file]
+                        )
+                        connection.commit()
+
+                    except psycopg2.errors.DuplicateTable as e:
+                        # Skip the migration if the table already exists
+                        print(f"Skipping migration {migration_file}: Table already exists.")
+                    except psycopg2.errors.DuplicateColumn as e:
+                        # Skip the migration if the column already exists
+                        print(f"Skipping migration {migration_file}: Column already exists.")
+                    except psycopg2.Error as e:
+                        print(f"Error applying migration {migration_file}: {e}")
+                        connection.rollback()
 
         cursor.close()
         connection.close()
