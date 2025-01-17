@@ -1,28 +1,25 @@
-# Mobile Phone Recommendation System
+# Mobile Phone Recommender
 
-## Project Overview
-A machine learning-powered system for mobile phone recommendations with web scraping capabilities.
+## Cloning and Running
 
-## Database
-```bash
-cd be
+1. Navigate to the project directory:
+
+```python
+cd mobile_phone_recommender
 ```
-To create database run:
-```bash
-python app/db/create_db.py
-```
-
-To apply migrations:
-```bash
-python app/db/run_migrations.py
+2. Create virtaul environment and activate it.
+```python
+virtalenv mobileVenv 
+mobileVenv/Scipts/activate.ps1
 ```
 
-## Setup
-1. Create virtual environment
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run the application: `python run.py`
+3. Install the required dependencies:
+```python
+pip install -r requirements.txt
+```
+   
+4. Run the the streamlit app:
+```python
+streamlit python app.py
+```
 
-## Features
-- Web scraping for mobile phone data
-- Machine learning recommendations
-- Health check endpoint

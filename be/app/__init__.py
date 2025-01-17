@@ -12,10 +12,10 @@ def create_app(config_class=Config):
 
     # Import and register blueprints
     # from .routes import health, scraping, recommendation
-    from .routes import health
+    from .routes import health, recommendation
 
     app.register_blueprint(health.bp)
     # app.register_blueprint(scraping.bp)
-    # app.register_blueprint(recommendation.bp)
+    app.register_blueprint(recommendation.bp)
 
     return app
